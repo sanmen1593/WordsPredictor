@@ -1,3 +1,5 @@
+import numpy as np
+
 class Predictor():
     def __init__(self):
         self.listaDiccionarios = []
@@ -16,7 +18,7 @@ class Predictor():
         texto = texto.replace(',','')
         texto = texto.replace('"','')
         texto = texto.replace('\'','')
-        texto = texto.replace('\n', '')
+        texto = texto.replace('\n','')
         texto = texto.replace('.','')
         return texto
 
@@ -44,14 +46,28 @@ class Predictor():
                     if not palabra[j]=='':
                         self.listaPalabras.append(palabra[j])
                         self.diccionarioPalabras[palabra[j]] = self.listaPalabras.index(palabra[j])
+                        self.listaDiccionarios.append({'total':0})
                         totalpalabras = totalpalabras+1
                         if j<len(palabra)-1:
-                            self.compararPalabras(self.diccionarioPalabras[palabra[j]],palabra[j+1],self.diccionarioPalabras[palabra[j]])
+                            self.compararPalabras(palabra[j],palabra[j+1],self.diccionarioPalabras[palabra[j]])
 
     def compararPalabras(self, palabraActual, palabraSiguiente, posPA):
-        print("---")
+        if(palabraActual == self.listaPalabras[posPA]):
+            print(palabraActual+" "+palabraSiguiente)
+            if(self.listaDiccionarios[posPA].has_key(palabraSiguiente)):
+                self.listaDiccionarios[posPA][palabraSiguiente] = self.listaDiccionarios[posPA][palabraSiguiente]+1
+                self.listaDiccionarios[posPA]['total'] = self.listaDiccionarios[posPA]['total']+1
+            else:
+                self.listaDiccionarios[posPA][palabraSiguiente] = 1
+                self.listaDiccionarios[posPA]['total'] = self.listaDiccionarios[posPA]['total']+1
 
 predictor = Predictor()
 predictor.divPalabras()
 print(predictor.diccionarioPalabras)
+print('')
 print(predictor.listaPalabras)
+print(predictor.listaDiccionarios[0]['and'])
+
+array = np.ones((2,len(predictor.listaPalabras)),float)
+array = np.zeros_like(array)
+print(array)
