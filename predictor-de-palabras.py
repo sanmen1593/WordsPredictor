@@ -79,11 +79,10 @@ class Predictor():
 
     def matrizProbabilidades(self):
         #Creamos la matriz de probabilidades p
-        self.p = np.ones((len(predictor.listaPalabras),len(predictor.listaPalabras)),float)
-        self.p = np.zeros_like(self.p)
+        self.p = np.zeros((len(predictor.listaPalabras),len(predictor.listaPalabras)),float)
+        #self.p = np.zeros_like(self.p)
         #Creamos el arreglo de probabilidades iniciales a
-        self.a = np.ones( (1,len(predictor.listaPalabras)),float)
-        self.a = np.zeros_like(self.a)
+        self.a = np.zeros(len(predictor.listaPalabras),dtype=np.float)
         listakeys = []
         for i in range(0,len(self.listaPalabras)):
             listakeys = self.listaDiccionarios[i].keys()
@@ -98,19 +97,24 @@ class Predictor():
 
     def predecir(self, palabra):
         if palabra in self.listaPalabras:
+            print(self.listaPalabras.index(palabra))
             self.a[self.listaPalabras.index(palabra)] = 1
             arrayres = self.ppora(self.p,self.a)
             index = np.argmax(arrayres)
+            print((arrayres))
+            print(index)
             print(self.listaPalabras[index])
         else:
             return "No hay predicciones para esta palabra"
 
 
     def ppora(self,p,a):
-        return p*a
+        print(p)
+        print(a)
+        return a*p
 
 predictor = Predictor()
 predictor.divPalabras()
 predictor.matrizProbabilidades()
 
-predictor.predecir('Betty')
+predictor.predecir('bit')
