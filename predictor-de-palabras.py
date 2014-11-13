@@ -51,6 +51,7 @@ class Predictor():
         lista = self.divParrafos()
         for i in range(len(lista)):
             palabra = str.split(lista[i],' ')
+            print(palabra)
             for j in range(len(palabra)):
                 if not palabra[j] in self.diccionarioPalabras:
                     if not palabra[j]=='': #Si la 'palabra' no es vacia
@@ -60,21 +61,24 @@ class Predictor():
                         #Creamos el diccionario con las palabras que vienen despues
                         self.listaDiccionarios.append({'frec total':0})
                         totalpalabras = totalpalabras+1 #Totaldepalabras
-                        if j<len(palabra)-1:
-                            #Comparamos la palabra actual con la siguiente para llenar el diccionario de frecuencias
-                            self.compararPalabras(palabra[j],palabra[j+1],self.diccionarioPalabras[palabra[j]])
+                if j<len(palabra)-1:
+                    #Comparamos la palabra actual con la siguiente para llenar el diccionario de frecuencias
+                    if not palabra[j] == '' and not palabra[j+1]=='':
+                        print(palabra[j])
+                        print(palabra[j+1])
+                        self.compararPalabras(palabra[j],palabra[j+1],self.diccionarioPalabras[palabra[j]])
 
     def compararPalabras(self, palabraActual, palabraSiguiente, posPA):
         if(palabraActual == self.listaPalabras[posPA]):
             if(self.listaDiccionarios[posPA].has_key(palabraSiguiente)):
                 #Si la palabra siguiente ya esta (antes ya estuvo despues de la palabra actual)
                 #se le suma 1 a la frecuencia
-                self.listaDiccionarios[posPA][palabraSiguiente] = self.listaDiccionarios[posPA][palabraSiguiente]+1
-                self.listaDiccionarios[posPA]['frec total'] = self.listaDiccionarios[posPA]['frec total']+1
+                self.listaDiccionarios[posPA][palabraSiguiente] += 1
+                self.listaDiccionarios[posPA]['frec total'] += 1
             else:
                 #Si la palabra siguiente no esta, entonces se crea con el valor de uno.
                 self.listaDiccionarios[posPA][palabraSiguiente] = 1
-                self.listaDiccionarios[posPA]['frec total'] = self.listaDiccionarios[posPA]['frec total']+1
+                self.listaDiccionarios[posPA]['frec total'] += 1
                 #En ambos casos, sumamos 1 al total (para luego dividir y sacar la probabilidad)
 
     def matrizProbabilidades(self):
@@ -94,27 +98,20 @@ class Predictor():
                     frecuencia = self.listaDiccionarios[i][listakeys[j]]
                     probabilidad = frecuencia/totalfrecs
                     self.p[pospalabra1,pospalabra2] = probabilidad
+        print(self.p[1,:])
 
     def predecir(self, palabra):
         if palabra in self.listaPalabras:
-            print(self.listaPalabras.index(palabra))
             self.a[self.listaPalabras.index(palabra)] = 1
-            arrayres = self.ppora(self.p,self.a)
+            arrayres = self.a.dot(self.p)
+            print(arrayres)
             index = np.argmax(arrayres)
-            print((arrayres))
-            print(index)
             print(self.listaPalabras[index])
         else:
-            return "No hay predicciones para esta palabra"
-
-
-    def ppora(self,p,a):
-        print(p)
-        print(a)
-        return a*p
+            print "No hay predicciones para esta palabra"
 
 predictor = Predictor()
 predictor.divPalabras()
 predictor.matrizProbabilidades()
 
-predictor.predecir('bit')
+predictor.predecir('And')
