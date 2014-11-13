@@ -58,7 +58,7 @@ class Predictor():
                         #Guardamos en el diccinario la palabra junto con su posicion:
                         self.diccionarioPalabras[palabra[j]] = self.listaPalabras.index(palabra[j])
                         #Creamos el diccionario con las palabras que vienen despues
-                        self.listaDiccionarios.append({'total':0})
+                        self.listaDiccionarios.append({'frec total':0})
                         totalpalabras = totalpalabras+1 #Totaldepalabras
                         if j<len(palabra)-1:
                             #Comparamos la palabra actual con la siguiente para llenar el diccionario de frecuencias
@@ -66,31 +66,51 @@ class Predictor():
 
     def compararPalabras(self, palabraActual, palabraSiguiente, posPA):
         if(palabraActual == self.listaPalabras[posPA]):
-            print(palabraActual+" "+palabraSiguiente)
             if(self.listaDiccionarios[posPA].has_key(palabraSiguiente)):
                 #Si la palabra siguiente ya esta (antes ya estuvo despues de la palabra actual)
                 #se le suma 1 a la frecuencia
                 self.listaDiccionarios[posPA][palabraSiguiente] = self.listaDiccionarios[posPA][palabraSiguiente]+1
-                self.listaDiccionarios[posPA]['total'] = self.listaDiccionarios[posPA]['total']+1
+                self.listaDiccionarios[posPA]['frec total'] = self.listaDiccionarios[posPA]['frec total']+1
             else:
                 #Si la palabra siguiente no esta, entonces se crea con el valor de uno.
                 self.listaDiccionarios[posPA][palabraSiguiente] = 1
-                self.listaDiccionarios[posPA]['total'] = self.listaDiccionarios[posPA]['total']+1
+                self.listaDiccionarios[posPA]['frec total'] = self.listaDiccionarios[posPA]['frec total']+1
                 #En ambos casos, sumamos 1 al total (para luego dividir y sacar la probabilidad)
+
+    def matrizProbabilidades(self):
+        #Creamos la matriz de probabilidades p
+        self.p = np.ones((len(predictor.listaPalabras),len(predictor.listaPalabras)),float)
+        self.p = np.zeros_like(self.p)
+        #Creamos el arreglo de probabilidades iniciales a
+        self.a = np.ones( (1,len(predictor.listaPalabras)),float)
+        self.a = np.zeros_like(self.a)
+        listakeys = []
+        for i in range(0,len(self.listaPalabras)):
+            listakeys = self.listaDiccionarios[i].keys()
+            for j in range(len(listakeys)):
+                if listakeys[j] != 'frec total':
+                    pospalabra1 = self.diccionarioPalabras[self.listaPalabras[i]]
+                    pospalabra2 = self.diccionarioPalabras[listakeys[j]]
+                    totalfrecs = self.listaDiccionarios[i]['frec total']
+                    frecuencia = self.listaDiccionarios[i][listakeys[j]]
+                    probabilidad = frecuencia/totalfrecs
+                    self.p[pospalabra1,pospalabra2] = probabilidad
+
+    def predecir(self, palabra):
+        if palabra in self.listaPalabras:
+            self.a[self.listaPalabras.index(palabra)] = 1
+            arrayres = self.ppora(self.p,self.a)
+            index = np.argmax(arrayres)
+            print(self.listaPalabras[index])
+        else:
+            return "No hay predicciones para esta palabra"
+
+
+    def ppora(self,p,a):
+        return p*a
 
 predictor = Predictor()
 predictor.divPalabras()
-print(predictor.diccionarioPalabras)
-print('')
-print(predictor.listaPalabras)
-print(predictor.listaDiccionarios[0]['and'])
+predictor.matrizProbabilidades()
 
-#Creamos la matriz de probabilidades p
-p = np.ones((2,len(predictor.listaPalabras)),float)
-p = np.zeros_like(p)
-print(p)
-
-#Creamos el arreglo de probabilidades iniciales a
-a = np.ones( (1,len(predictor.listaPalabras)),float)
-a = np.zeros_like(a)
-print(a)
+predictor.predecir('Betty')
