@@ -1,4 +1,6 @@
+from __future__ import division
 import numpy as np
+
 
 class Predictor():
     # Declaramos las variables que utilizaremos:
@@ -51,7 +53,6 @@ class Predictor():
         lista = self.divParrafos()
         for i in range(len(lista)):
             palabra = str.split(lista[i],' ')
-            print(palabra)
             for j in range(len(palabra)):
                 if not palabra[j] in self.diccionarioPalabras:
                     if not palabra[j]=='': #Si la 'palabra' no es vacia
@@ -64,8 +65,6 @@ class Predictor():
                 if j<len(palabra)-1:
                     #Comparamos la palabra actual con la siguiente para llenar el diccionario de frecuencias
                     if not palabra[j] == '' and not palabra[j+1]=='':
-                        print(palabra[j])
-                        print(palabra[j+1])
                         self.compararPalabras(palabra[j],palabra[j+1],self.diccionarioPalabras[palabra[j]])
 
     def compararPalabras(self, palabraActual, palabraSiguiente, posPA):
@@ -80,14 +79,13 @@ class Predictor():
                 self.listaDiccionarios[posPA][palabraSiguiente] = 1
                 self.listaDiccionarios[posPA]['frec total'] += 1
                 #En ambos casos, sumamos 1 al total (para luego dividir y sacar la probabilidad)
-
     def matrizProbabilidades(self):
         #Creamos la matriz de probabilidades p
-        self.p = np.zeros((len(predictor.listaPalabras),len(predictor.listaPalabras)),float)
+        self.p = np.zeros((len(self.listaPalabras),len(self.listaPalabras)),float)
         #self.p = np.zeros_like(self.p)
         #Creamos el arreglo de probabilidades iniciales a
-        self.a = np.zeros(len(predictor.listaPalabras),dtype=np.float)
-        listakeys = []
+        self.a = np.zeros(len(self.listaPalabras),dtype=np.float)
+        #listakeys = []
         for i in range(0,len(self.listaPalabras)):
             listakeys = self.listaDiccionarios[i].keys()
             for j in range(len(listakeys)):
@@ -98,13 +96,11 @@ class Predictor():
                     frecuencia = self.listaDiccionarios[i][listakeys[j]]
                     probabilidad = frecuencia/totalfrecs
                     self.p[pospalabra1,pospalabra2] = probabilidad
-        print(self.p[1,:])
 
     def predecir(self, palabra):
         if palabra in self.listaPalabras:
             self.a[self.listaPalabras.index(palabra)] = 1
             arrayres = self.a.dot(self.p)
-            print(arrayres)
             index = np.argmax(arrayres)
             print(self.listaPalabras[index])
         else:
@@ -113,5 +109,4 @@ class Predictor():
 predictor = Predictor()
 predictor.divPalabras()
 predictor.matrizProbabilidades()
-
-predictor.predecir('And')
+predictor.predecir('bit')
