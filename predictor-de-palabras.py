@@ -29,6 +29,8 @@ class Predictor():
         texto = texto.replace('\'','')
         texto = texto.replace('\n','')
         texto = texto.replace('.','')
+        texto = texto.replace('[','')
+        texto = texto.replace(']','')
         return texto
 
     #Dividiemos el texto en parrajos segun los saltos de linea.
@@ -109,4 +111,4 @@ class Predictor():
 predictor = Predictor()
 predictor.divPalabras()
 predictor.matrizProbabilidades()
-predictor.predecir('bit')
+predictor.predecir('new')
