@@ -1,12 +1,29 @@
 <html>
 	<head>
+		<meta charset="UTF8">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 	</head>
 	<body>
-		<div class="input-group">
-		  <span class="input-group-addon">Palabra: </span>
-		  <input type="text" class="form-control" placeholder="palabra">
+		<div class="container">
+			<div class="col-md-12">
+				<h1>Predictor de palabras</h1>
+				<p>Ingrese una palabra, y la aplicación le mostrará la siguiente palabra mas probable.</p>
+			</div>
+		</div>
+		<div class="container">
+			<div class="col-md-3">
+			</div>
+			<div class="col-md-9">
+				<h2>Ingrese una palabra: </h2>
+				<form class="form-inline" method="GET" action="predictor">
+					<div class="input-group">
+						<span class="input-group-addon">Palabra: </span>
+						<input type="text" name="word" id="word" class="form-control" placeholder="palabra">
+					</div>
+					<input type="submit" class="form-control" placeholder="Enviar">
+				</form>
+			</div>
 		</div>
 	</body>
 </html>
