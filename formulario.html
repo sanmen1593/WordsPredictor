@@ -21,13 +21,13 @@
 		</div>
 	</div>
 	<div class="container">
-		<form class="form-horizontal">
+		<form class="form-horizontal" action="addElement(getElementById('texto').value);">
 			<div class="form-group">
 				<label for="texto">Palabra:</label>
 				<input class="form-control input-lg" id="texto" type="text" size="40"/>
 			</div>
 			<div class="form-group">
-				<input class="btn btn-success" type="button" onClick="addElement(getElementById('texto').value);" value="Añadir Elemento">
+				<input class="btn btn-success" type="submit" onClick="addElement(getElementById('texto').value);" value="Predecir">
 			</div>
 		</form>
 		<div class="container" id="capa">
