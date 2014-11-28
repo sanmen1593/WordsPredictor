@@ -1,29 +1,38 @@
+<!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF8">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-	</head>
-	<body>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
+	<title>Predictor</title>
+	<script type="text/javascript">
+		function addElement(texto){
+			var capa = document.getElementById("capa");
+			var object = document.createElement("object");
+			resultado.setAttribute('data', 'http://104.236.56.229/predictor?word='+texto)
+		}
+	</script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="jumbotron">
 		<div class="container">
-			<div class="col-md-12">
-				<h1>Predictor de palabras</h1>
-				<p>Ingrese una palabra, y la aplicación le mostrará la siguiente palabra mas probable.</p>
-			</div>
+			<h1>Word's Predictor</h1>
+			<p>Ingrese una palabra en inglés, y el predictor predecirá la siguiente palabra mas probable</p>
 		</div>
-		<div class="container">
-			<div class="col-md-3">
+	</div>
+	<div class="container">
+		<form class="form-horizontal">
+			<div class="form-group">
+				<label for="texto">Palabra:</label>
+				<input class="form-control input-lg" id="texto" type="text" size="40"/>
 			</div>
-			<div class="col-md-9">
-				<h2>Ingrese una palabra: </h2>
-				<form class="form-inline" method="GET" action="predictor">
-					<div class="input-group">
-						<span class="input-group-addon">Palabra: </span>
-						<input type="text" name="word" id="word" class="form-control" placeholder="palabra">
-					</div>
-					<input type="submit" class="form-control" placeholder="Enviar">
-				</form>
+			<div class="form-group">
+				<input class="btn btn-success" type="button" onClick="addElement(getElementById('texto').value);" value="Añadir Elemento">
 			</div>
+		</form>
+		<div class="container" id="capa">
+			<object id="resultado" data='' width='100' height='100'></object> 
 		</div>
-	</body>
+	</div>
+</body>
 </html>
