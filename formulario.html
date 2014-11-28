@@ -17,22 +17,35 @@
 <body>
 	<div class="jumbotron">
 		<div class="container">
+			<div class="col-md-2">
+			<img class="" src="http://2.bp.blogspot.com/-Ezgcb2j4NCU/VHjZ52DFyNI/AAAAAAAAG0A/xoK9UKYE5MM/s1600/wordspredictor.png" width="170" height="170"/> 
+			</div>
+			<div class="col-md-10">
 			<h1>Word's Predictor</h1>
 			<p>Ingrese una palabra en inglés, y el predictor predecirá la siguiente palabra mas probable</p>
+			</div>
 		</div>
 	</div>
+	</div>
 	<div class="container">
-		<form class="form-horizontal" onsubmit="javascript:addElement(getElementById('texto').value);" action="javascript:addElement(getElementById('texto').value);">
-			<div class="form-group">
-				<label for="texto">Palabra:</label>
-				<input class="form-control input-lg" id="texto" type="text" size="40"/>
-			</div>
-			<div class="form-group">
-				<input class="btn btn-success" type="submit" onClick="addElement(getElementById('texto').value);" value="Predecir">
-			</div>
-		</form>
-		<div class="container" id="capa">
-			<object id="resultado" data='' width='100' height='100'></object> 
+		<div class="col-md-6">
+			<h3>Ingrese una palabra</h3>
+			<form class="form-horizontal" onsubmit="javascript:addElement(getElementById('texto').value);" action="javascript:addElement(getElementById('texto').value);">
+				<div class="input-group">
+					<label class="input-group-addon" for="texto">Palabra:</label>
+					<input class="form-control input-lg" id="texto" type="text" size="40"/>
+				</div>
+				<br>
+				<div class="input-group">
+					<input class="btn btn-success" type="submit" onClick="addElement(getElementById('texto').value);" value="Predecir">
+				</div>
+			</form>
+		</div>
+		<div class="col-md-2 col-md-offset-3" id="capa">
+				<object id="resultado" data='' width='150' height='150'></object>
+		</div>
+		
+		<div class="col-md-6">
 		</div>
 	</div>
 </body>
